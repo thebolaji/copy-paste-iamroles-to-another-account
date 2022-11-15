@@ -188,7 +188,9 @@ async function createRoleFromExisting(sourceRole, targetRoleName) {
   let targetRole;
   try {
     // let pol = [];
-    const checkRole = await getIam().getRole({ RoleName: roleName }).promise();
+    const checkRole = await getIam()
+      .getRole({ RoleName: targetRoleName })
+      .promise();
     // if (checkRole) {
     //   await fetchInlinePolicies(targetRoleName).then((res) => {
     //     if (res.length > 0) {
