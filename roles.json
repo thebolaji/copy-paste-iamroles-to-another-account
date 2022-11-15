@@ -1,0 +1,16 @@
+[
+  "Alert",
+  "AWSServiceRoleForAWSChatbot",
+  "AWSServiceRoleForCodeStarNotifications",
+  "AWSServiceRoleForECS",
+  "AWSServiceRoleForElasticLoadBalancing",
+  "AWSServiceRoleForGlobalAccelerator",
+  "AWSServiceRoleForSupport",
+  "AWSServiceRoleForTrustedAdvisor",
+  "codedeploy_service_role",
+  "ecs_task_excecution_role",
+  "ecs_task_service_role",
+  "LynkkAlert",
+  "lynkkiam_codebuild",
+  "lynkkiam_codepipeline"
+]
