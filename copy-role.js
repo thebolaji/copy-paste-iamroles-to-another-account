@@ -188,6 +188,7 @@ async function createRoleFromExisting(sourceRole, targetRoleName) {
   let targetRole;
   try {
     // let pol = [];
+    const checkRole = await getIam().getRole({ RoleName: roleName }).promise();
     // if (checkRole) {
     //   await fetchInlinePolicies(targetRoleName).then((res) => {
     //     if (res.length > 0) {
@@ -219,24 +220,25 @@ async function createRoleFromExisting(sourceRole, targetRoleName) {
     //   await getIam().deleteRole({ RoleName: targetRoleName }).promise();
     // }
 
-    targetRole = (
-      await getIam()
-        .createRole({
-          Path: sourceRole.Path,
-          RoleName: targetRoleName,
-          AssumeRolePolicyDocument: decodeURIComponent(
-            sourceRole.AssumeRolePolicyDocument
-          ),
-          Description: sourceRole.Description,
-          MaxSessionDuration: sourceRole.MaxSessionDuration,
-          PermissionsBoundary: sourceRole.PermissionsBoundary
-            ? sourceRole.PermissionsBoundary.PermissionsBoundaryArn
-            : undefined,
-          Tags: sourceRole.Tags,
-        })
-        .promise()
-    ).Role;
-
+    if (!checkRole) {
+      targetRole = (
+        await getIam()
+          .createRole({
+            Path: sourceRole.Path,
+            RoleName: targetRoleName,
+            AssumeRolePolicyDocument: decodeURIComponent(
+              sourceRole.AssumeRolePolicyDocument
+            ),
+            Description: sourceRole.Description,
+            MaxSessionDuration: sourceRole.MaxSessionDuration,
+            PermissionsBoundary: sourceRole.PermissionsBoundary
+              ? sourceRole.PermissionsBoundary.PermissionsBoundaryArn
+              : undefined,
+            Tags: sourceRole.Tags,
+          })
+          .promise()
+      ).Role;
+    }
     console.log({ third: AWS.config.credentials });
   } catch (e) {
     throw new Error(`<-- Failed to create target role: "${e.message}"`);
