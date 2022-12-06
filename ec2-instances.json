@@ -1,0 +1,17 @@
+{
+  "Name": "Dev-Bitcoin-Env",
+  "OS": "ami-0f540e9f488cfa27d",
+  "PrivateIpAddress": "172.31.35.158",
+  "PublicIpAddress": "3.8.161.132",
+  "InstanceId": "i-0ea36130e47f5689a",
+  "AwsRegion": "eu-west-2",
+  "AwsAccount": "AKIA2MJSBR5L5IHETG54"
+},{
+  "Name": "Bitcoin-Production",
+  "OS": "ami-0f540e9f488cfa27d",
+  "PrivateIpAddress": "172.31.40.169",
+  "PublicIpAddress": "13.41.14.224",
+  "InstanceId": "i-050744c4d2c5e7fe2",
+  "AwsRegion": "eu-west-2",
+  "AwsAccount": "AKIA2MJSBR5L5IHETG54"
+},
