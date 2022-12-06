@@ -38,7 +38,7 @@ let iam;
 
 async function listAllRoles() {
   try {
-    allRoles = await getIam().listRoles().promise();
+    allRoles = await getIam({}).listRoles().promise();
     const roles = allRoles.Roles.map((role) => role.RoleName);
     const saveToFileAsArray = JSON.stringify(roles, null, 2);
     fs.writeFileSync("roles.json", saveToFileAsArray);
@@ -184,13 +184,16 @@ async function fetchManagedPolicies(roleName) {
 async function createRoleFromExisting(sourceRole, targetRoleName) {
   log(`\n--> Creating a new role ${targetRoleName}...`);
 
-  console.log({ second: AWS.config.credentials });
+  //   console.log({ baddo1: AWS.config.credentials, sourceRole, targetRoleName });
   let targetRole;
   try {
     // let pol = [];
     const checkRole = await getIam()
       .getRole({ RoleName: targetRoleName })
-      .promise();
+      .promise()
+      .catch((e) => {
+        console.log({ e });
+      });
     // if (checkRole) {
     //   await fetchInlinePolicies(targetRoleName).then((res) => {
     //     if (res.length > 0) {
@@ -221,7 +224,7 @@ async function createRoleFromExisting(sourceRole, targetRoleName) {
     //   // delete the role
     //   await getIam().deleteRole({ RoleName: targetRoleName }).promise();
     // }
-
+    console.log({ Baddo: checkRole });
     if (!checkRole) {
       targetRole = (
         await getIam()
@@ -243,6 +246,7 @@ async function createRoleFromExisting(sourceRole, targetRoleName) {
     }
     console.log({ third: AWS.config.credentials });
   } catch (e) {
+    // console.log({ e });
     throw new Error(`<-- Failed to create target role: "${e.message}"`);
   }
 
@@ -278,13 +282,16 @@ async function addManagedPolicies(targetRoleName, policies) {
       .getRole({ RoleName: targetRoleName })
       .promise();
     if (checkRole) {
-      for (const policy of policies) {
+      for (let i = 0; i < policies.length; i++) {
         await getIam()
-          .attachRolePolicy({
+          .detachRolePolicy({
             RoleName: targetRoleName,
-            PolicyArn: policy.PolicyArn,
+            PolicyArn: policies[i].PolicyArn,
           })
-          .promise();
+          .promise()
+          .catch((e) => {
+            console.log({ e });
+          });
       }
     }
   } catch (e) {
